@@ -1,0 +1,28 @@
+version: 2.1
+jobs:
+  job_build:
+    docker:
+      - image: cirrusci/flutter:3.0.0
+    steps:
+      - checkout
+      - run: flutter doctor
+      - run: flutter build apk --release --no-tree-shake-icons
+      - run: ls -la build/app/outputs/flutter-apk
+  job_release:
+    docker:
+      - image: cimg/go:1.19.3
+    steps:
+      - checkout
+      - run: |
+          go version
+          go install github.com/tcnksm/ghr@latest
+          ghr -v
+          ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} \ 
+          -c ${CIRCLE_SHA1} -delete ${VERSION} ./build/app/outputs/flutter-apk
+workflows:
+  my-workflow:
+    jobs:
+      - job_build
+      - job_release:
+          requires:
+            - job_build
