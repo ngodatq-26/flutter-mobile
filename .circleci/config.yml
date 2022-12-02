@@ -9,20 +9,9 @@ commands:
       - run: 
           name: Build and release new version
           command: |
-            flutter doctor
-            flutter build apk --release --no-tree-shake-icons
-            ls -la build/app/outputs/flutter-apk
-            sudo apt update -y
-            sudo apt install bash
-            wget https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz
-            sudo tar -C /usr/local/ -xzf ./go1.19.3.linux-amd64.tar.gz
-            export PATH=$PATH:/usr/local/go/bin
-            export PATH=$PATH:~/go/bin
-            go version
-            go install github.com/tcnksm/ghr@latest
-            ghr -v
             git config --global user.email "-"
             git config --global user.name ${GITHUB_USERNAME}
+            git remote set-url https://${GITHUB_TOKEN}:x-oauth-basic@github.com/ngodatq-26/flutter-mobile
             git tag -d ${VERSION} && git push --delete origin ${VERSION}
             git tag ${VERSION} && git push origin --tags
             ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} -c ${CIRCLE_SHA1} ./build/app/outputs/flutter-apk
