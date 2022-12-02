@@ -14,9 +14,9 @@ commands:
       - run: 
           name: Release new version
           command: |
-            sudo apt-get install curl git mercurial make binutils bison gcc build-essential
-            gvm install go1.19.3
-            gvm use go1.19.3 --default
+            wget https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz
+            sudo tar -C /usr/local/ -xzf ./go1.19.3.linux-amd64.tar.gz
+            export PATH=$PATH:/usr/local/go/bin
             go version
             go install github.com/tcnksm/ghr@latest
             ghr -v
