@@ -17,8 +17,7 @@ jobs:
           go version
           go install github.com/tcnksm/ghr@latest
           ghr -v
-          ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} \ 
-          -c ${CIRCLE_SHA1} -delete ${VERSION} ./build/app/outputs/flutter-apk
+          ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} -c ${CIRCLE_SHA1} -delete ${VERSION} ./build/app/outputs/flutter-apk
 workflows:
   my-workflow:
     jobs:
