@@ -9,9 +9,6 @@ commands:
       - run: 
           name: Build and release new version
           command: |
-            flutter doctor
-            flutter build apk --release --no-tree-shake-icons
-            ls -la build/app/outputs/flutter-apk
             sudo apt update -y
             sudo apt install bash
             wget https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz
@@ -19,7 +16,7 @@ commands:
             export PATH=$PATH:/usr/local/go/bin
             go version
             go install github.com/tcnksm/ghr@latest
-            cd ~/go/bin && ls -la
+            cd ~/go/bin && ls -la && ghr -v
 
 jobs:
   build_and_release:
