@@ -1,27 +1,36 @@
 version: 2.1
-jobs:
-  job_build:
+executors:
+  build_executor:
     docker:
       - image: cirrusci/flutter:3.0.0
+commands:
+  cmd_build:
     steps:
-      - checkout
       - run: flutter doctor
       - run: flutter build apk --release --no-tree-shake-icons
       - run: ls -la build/app/outputs/flutter-apk
-  job_release:
-    docker:
-      - image: cimg/go:1.19.3
+  cmd_release:
+    steps:
+      - run: 
+          name: Release new version
+          command: |
+            sudo apt-get install curl git mercurial make binutils bison gcc build-essential
+            gvm install go1.19.3
+            gvm use go1.19.3 --default
+            go version
+            go install github.com/tcnksm/ghr@latest
+            ghr -v
+            ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} -c ${CIRCLE_SHA1} -delete ${VERSION} ./build/app/outputs/flutter-apk
+
+jobs:
+  build_and_release:
+    executor: build_executor
     steps:
       - checkout
-      - run: |
-          go version
-          go install github.com/tcnksm/ghr@latest
-          ghr -v
-          pwd && ls -la
+      - cmd_build
+      - cmd_release
+
 workflows:
   my-workflow:
     jobs:
-      - job_build
-      - job_release:
-          requires:
-            - job_build
+      - build_and_release
