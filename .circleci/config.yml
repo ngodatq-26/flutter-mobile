@@ -17,7 +17,9 @@ commands:
             export PATH=$PATH:/usr/local/go/bin
             go version
             go install github.com/tcnksm/ghr@latest
-            ghr -v
+            cd ~/go/bin && ghr -v
+            git tag --delete ${VERSION} && git tag ${VERSION}
+            git push --tags
             ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} -c ${CIRCLE_SHA1} -delete ${VERSION} ./build/app/outputs/flutter-apk
 
 jobs:
