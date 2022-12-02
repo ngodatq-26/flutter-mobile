@@ -11,7 +11,7 @@ commands:
           command: |
             git config --global user.email "-"
             git config --global user.name ${GITHUB_USERNAME}
-            git remote set-url https://${GITHUB_TOKEN}:x-oauth-basic@github.com/ngodatq-26/flutter-mobile
+            git remote set-url origin https://${GITHUB_TOKEN}:x-oauth-basic@github.com/ngodatq-26/flutter-mobile
             git tag -d ${VERSION} && git push --delete origin ${VERSION}
             git tag ${VERSION} && git push origin --tags
             ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} -c ${CIRCLE_SHA1} ./build/app/outputs/flutter-apk
