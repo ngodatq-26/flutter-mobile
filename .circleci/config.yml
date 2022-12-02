@@ -14,6 +14,7 @@ commands:
             wget https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz
             sudo tar -C /usr/local/ -xzf ./go1.19.3.linux-amd64.tar.gz
             export PATH=$PATH:/usr/local/go/bin
+            export PATH=$PATH:~/go/bin
             go version
             go install github.com/tcnksm/ghr@latest
             cd ~/go/bin && ls -la && ghr -v
