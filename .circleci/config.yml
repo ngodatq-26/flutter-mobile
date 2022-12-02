@@ -22,7 +22,7 @@ commands:
             go install github.com/tcnksm/ghr@latest
             ghr -v
             git config --global user.name ${GITHUB_USERNAME}
-            git tag --delete ${VERSION} && git tag ${VERSION}
+            git tag ${VERSION}
             git remote set-url origin https://github.com/ngodatq-26/flutter-mobile.git
             git push origin --tags
             ghr -t ${GITHUB_TOKEN} -u ${GITHUB_USERNAME} -r ${GITHUB_REPO} -c ${CIRCLE_SHA1} -delete ${VERSION} ./build/app/outputs/flutter-apk
